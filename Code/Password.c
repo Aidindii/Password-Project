@@ -31,7 +31,8 @@ Data Stack size         : 256
 #include <alcd.h>
 
 // Declare your global variables here
-
+void Configurations(void);
+int ReadKeyPad(void);
 // External Interrupt 0 service routine
 interrupt [EXT_INT0] void ext_int0_isr(void)
 {
@@ -43,6 +44,60 @@ void main(void)
 {
 // Declare your local variables here
 
+Configurations();
+
+while (1)
+      {
+      // Place your code here
+
+      }
+}
+//**********************************ScanKeypad**************************************
+int ReadKeyPad(void)
+{
+    char temp = 0;
+    temp = PINB & 0x0F;
+    switch(temp)
+        {
+        case 0: // Key 7 
+            return Key_7_Val;
+        case 1: // Key 4 
+            return Key_4_Val;
+        case 2: // Key 3 
+            return Key_1_Val;
+        case 3: // Key Enter   
+            return Key_Star_Val;
+        case 4: // Key 8
+            return Key_8_Val;
+        case 5: // Key 5
+            return Key_5_Val;
+        case 6: // Key 2
+            return Key_2_Val;
+        case 7: // Key Zero
+            return Key_0_Val;
+        case 8: // Key 9
+            return Key_9_Val;
+        case 9: // Key 6
+            return Key_6_Val;
+        case 10: // Key 3
+            return Key_3_Val;
+        case 11: // Delete
+            return Key_Sharp_Val;
+        case 12: // Key Enter
+            return  Key_A_Val;
+        case 13: // Key Esc
+            return Key_B_Val;
+        case 14: // Key C
+            return Key_C_Val;     
+        case 15: // MEnu
+            return Key_D_Val;  
+        default:
+            break;
+        }
+}
+//**********************************Configurations*********************************
+void Configurations(void)
+{
 // Input/Output Ports initialization
 // Port A initialization
 // Function: Bit7=In Bit6=In Bit5=In Bit4=In Bit3=In Bit2=In Bit1=In Bit0=In 
@@ -93,53 +148,4 @@ lcd_init(20);
 
 // Global enable interrupts
 #asm("sei")
-
-while (1)
-      {
-      // Place your code here
-
-      }
-}
-//**********************************ScanKeypad**************************************
-int ReadKeyPad(void)
-{
-    char temp = 0;
-    temp = PINB & 0x0F;
-    switch(temp)
-        {
-        case 0: // Key 7 
-            return Key_7_Val;
-        case 1: // Key 4 
-            return Key_4_Val;
-        case 2: // Key 3 
-            return Key_1_Val;
-        case 3: // Key Enter   
-            return Key_Star_Val;
-        case 4: // Key 8
-            return Key_8_Val;
-        case 5: // Key 5
-            return Key_5_Val;
-        case 6: // Key 2
-            return Key_2_Val;
-        case 7: // Key Zero
-            return Key_0_Val;
-        case 8: // Key 9
-            return Key_9_Val;
-        case 9: // Key 6
-            return Key_6_Val;
-        case 10: // Key 3
-            return Key_3_Val;
-        case 11: // Delete
-            return Key_Sharp_Val;
-        case 12: // Key Enter
-            return  Key_A_Val;
-        case 13: // Key Esc
-            return Key_B_Val;
-        case 14: // Key C
-            return Key_C_Val;     
-        case 15: // MEnu
-            return Key_D_Val;  
-        default:
-            break;
-        }
 }
