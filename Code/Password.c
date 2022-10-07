@@ -23,6 +23,10 @@ Data Stack size         : 256
 
 #include <mega16.h>
 #include "Define.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <delay.h>
+#include <stdbool.h>
 // Alphanumeric LCD functions
 #include <alcd.h>
 
