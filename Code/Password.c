@@ -31,6 +31,14 @@ Data Stack size         : 256
 #include <alcd.h>
 
 // Declare your global variables here
+char KeyCode = -1;
+char sys_code[5] = "1234";
+char new_code[5] = "";
+char user_code[sizeof(sys_code)]= "";
+char user_code_idx = 0;
+bool go = false, new = false, ok = false;
+int address = 0, state = 1;
+// Declare your function prototype here
 void Configurations(void);
 int ReadKeyPad(void);
 void EnableKeyPad(void);
