@@ -33,6 +33,8 @@ Data Stack size         : 256
 // Declare your global variables here
 void Configurations(void);
 int ReadKeyPad(void);
+void EnableKeyPad(void);
+void DisableKeyPad(void);
 // External Interrupt 0 service routine
 interrupt [EXT_INT0] void ext_int0_isr(void)
 {
@@ -124,11 +126,11 @@ DDRD=(0<<DDD7) | (0<<DDD6) | (0<<DDD5) | (0<<DDD4) | (0<<DDD3) | (0<<DDD2) | (0<
 PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
 
 // External Interrupt(s) initialization
-// INT0: On
+// INT0: Off
 // INT0 Mode: Falling Edge
 // INT1: Off
 // INT2: Off
-GICR|=(0<<INT1) | (1<<INT0) | (0<<INT2);
+GICR|=(0<<INT1) | (0<<INT0) | (0<<INT2);
 MCUCR=(0<<ISC11) | (0<<ISC10) | (1<<ISC01) | (0<<ISC00);
 MCUCSR=(0<<ISC2);
 GIFR=(0<<INTF1) | (1<<INTF0) | (0<<INTF2);
@@ -148,4 +150,30 @@ lcd_init(20);
 
 // Global enable interrupts
 #asm("sei")
+}
+//************************Enabling the Encoder to scan the keypad********************************************
+void EnableKeyPad(void)
+{
+// External Interrupt(s) initialization
+// INT0: On
+// INT0 Mode: Falling Edge
+// INT1: Off
+// INT2: Off
+GICR|=(0<<INT1) | (1<<INT0) | (0<<INT2);
+MCUCR=(0<<ISC11) | (0<<ISC10) | (1<<ISC01) | (0<<ISC00);
+MCUCSR=(0<<ISC2);
+GIFR=(0<<INTF1) | (1<<INTF0) | (0<<INTF2);
+}
+//******************************Disabling the keypad**************************************
+void DisableKeyPad(void)
+{
+// External Interrupt(s) initialization
+// INT0: Off
+// INT0 Mode: Falling Edge
+// INT1: Off
+// INT2: Off
+GICR|=(0<<INT1) | (0<<INT0) | (0<<INT2);
+MCUCR=(0<<ISC11) | (0<<ISC10) | (1<<ISC01) | (0<<ISC00);
+MCUCSR=(0<<ISC2);
+GIFR=(0<<INTF1) | (1<<INTF0) | (0<<INTF2);
 }
