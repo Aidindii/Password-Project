@@ -42,7 +42,7 @@ bool go = false, new = false, ok = false;
 int address = 0, state = 1;
 // Declare your function prototype here
 void Configurations(void);
-int ReadKeyPad(void);
+char ReadKeyPad(void);
 void EnableKeyPad(void);
 void DisableKeyPad(void);
 int AskYesNo(char msg[20]);
@@ -78,7 +78,7 @@ while (1)
       }
 }
 //**********************************ScanKeypad**************************************
-int ReadKeyPad(void)
+char ReadKeyPad(void)
 {
     char temp = 0;
     temp = PINB & 0x0F;
@@ -390,7 +390,7 @@ PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<
 // INT0 Mode: Falling Edge
 // INT1: Off
 // INT2: Off
-GICR|=(0<<INT1) | (0<<INT0) | (0<<INT2);
+GICR|=(0<<INT1) | (1<<INT0) | (0<<INT2);
 MCUCR=(0<<ISC11) | (0<<ISC10) | (1<<ISC01) | (0<<ISC00);
 MCUCSR=(0<<ISC2);
 GIFR=(0<<INTF1) | (1<<INTF0) | (0<<INTF2);
