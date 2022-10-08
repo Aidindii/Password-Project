@@ -267,6 +267,83 @@ lcd_puts("Enter Password :");
        }
   }
 }
+//********************************Changing Password Function*************************
+bool ChangePassword(void)
+{
+unsigned char num = -1;
+char msg[20] = "Are You Sure?";
+int value = 0, address = 0;
+user_code_idx = 0;
+lcd_clear();
+lcd_gotoxy(0,0);
+lcd_puts("Enter New Pass");
+lcd_gotoxy(0,1);
+lcd_puts("PASS : ");
+strcpy(user_code,"");
+user_code_idx = 0; 
+while(1)
+    {
+        if(KeyCode != -1)
+            {
+                num = KeyCode;
+                KeyCode = -1;
+                if(num == Key_Enter_Val)
+                    {
+                        user_code[user_code_idx] = '\0';
+                        if(user_code_idx == 4)
+                            {
+                                lcd_clear();
+                                lcd_gotoxy(3,0);  
+                                while(1)
+                                  {
+                                    int result = AskYesNo(msg); 
+                                    switch(result)
+                                    {
+                                      case 1: // Yes
+                                        value = convert_to_int(new_code);
+                                        WriteToMemory(address, value);  
+                                        lcd_clear();
+                                        lcd_gotoxy(2,1);
+                                        lcd_puts("Password Changed"); 
+                                        delay_ms(1500);
+                                        lcd_clear();
+                                        lcd_gotoxy(2,0);
+                                        lcd_puts("System is Active");
+                                        return true;
+                                        
+                                      case 2: // No 
+                                        lcd_gotoxy(2,0);
+                                        lcd_puts("System is Active");
+                                        return true;
+                                    }
+                                  }
+                            }
+                         else
+                            {  
+                                lcd_clear();
+                                lcd_gotoxy(2,1);
+                                lcd_puts("Incorrect PassWord");
+                                strcpy(user_code,"");
+                                user_code_idx = 0; 
+                                delay_ms(2000);
+                                return false;
+                            }
+                        strcpy(user_code,"");
+                        user_code_idx = 0;     
+                    }  
+                   else if(num <= 9 && num >= 0)
+                     {
+                      if(user_code_idx < (sizeof(user_code)-1))
+                        {
+                            user_code[user_code_idx] = num + 0x30; 
+                            lcd_putchar(user_code[user_code_idx]);
+                            new_code[user_code_idx] = user_code[user_code_idx];
+                            user_code_idx++;
+                        }
+                     }
+            }
+    }
+}
 //**********************************Configurations*********************************
 void Configurations(void)
 {
