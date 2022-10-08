@@ -45,6 +45,14 @@ void Configurations(void);
 int ReadKeyPad(void);
 void EnableKeyPad(void);
 void DisableKeyPad(void);
+int AskYesNo(char msg[20]);
+void printNumbers(unsigned char keycode);
+int convert_to_int(char data[5]);
+void WriteToMemory(int address, int data);
+int ReadFromMemory(int address);
+bool EnterPassword(void);
+bool ChangePassword(void);
+
 // External Interrupt 0 service routine
 interrupt [EXT_INT0] void ext_int0_isr(void)
 {
@@ -57,6 +65,11 @@ void main(void)
 // Declare your local variables here
 
 Configurations();
+
+do
+  {
+   go = EnterPassword();
+  }while(go != true);
 
 while (1)
       {
