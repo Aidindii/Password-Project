@@ -177,6 +177,23 @@ int convert_to_int(char data[5])
     value = atoi(data);
     return value;
 }
+//******************************Write To EEPROM**************************************
+void WriteToMemory(int address, int data)
+{
+ int counter = 0;
+ if(data > 255)
+    {    
+        while(data > 255)
+            {
+                data = data - 255;
+                counter++; 
+            }
+    }  
+    eeprom_write_byte(address, counter);
+    delay_us(2);
+    eeprom_write_byte(address + 1, data); 
+    delay_us(2);
+}
 //**********************************Configurations*********************************
 void Configurations(void)
 {
