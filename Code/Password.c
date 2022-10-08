@@ -27,6 +27,7 @@ Data Stack size         : 256
 #include <stdlib.h>
 #include <delay.h>
 #include <stdbool.h>
+#include <string.h>
 #include <eeprom.h>
 // Alphanumeric LCD functions
 #include <alcd.h>
@@ -205,6 +206,66 @@ int ReadFromMemory(int address)
  delay_us(2);
  data = data + (counter * 255); 
  return data;
+}
+//***************************Enter Password Function*******************************************
+bool EnterPassword(void)
+{
+int ReadMemory = 0, i = 0;
+unsigned char number = 0;
+unsigned char system_code[5] = {0};
+ReadMemory = ReadFromMemory(address);
+itoa(ReadMemory, system_code);
+
+lcd_clear();
+lcd_gotoxy(0,0);
+lcd_puts("Enter Password :");   
+
+  while(1)
+  {
+    if(KeyCode != -1)
+       {  
+          number = KeyCode;
+          KeyCode = -1;
+          if(number == Key_Enter_Val)
+             {  
+                DisableKeyPad();
+                user_code[user_code_idx] = '\0';
+                if(strcmp(user_code,system_code) == 0)
+                    { 
+                        lcd_clear();
+                        delay_ms(500);
+                        lcd_clear();
+                        lcd_gotoxy(2,0);
+                        lcd_puts("System is Active");
+                        KeyCode = -1; 
+                        EnableKeyPad();
+                        return true; 
+                    }
+                 else
+                    {  
+                        lcd_clear();
+                        lcd_gotoxy(1,1);
+                        lcd_puts("Incorrect PassWord");     
+                        strcpy(user_code,"");
+                        user_code_idx = 0;
+                        delay_ms(2000);
+                        return false;
+                    }  
+                  strcpy(user_code,"");
+                  user_code_idx = 0;               
+             }
+           else if(number <= 9 && number >= 0)
+             {
+              if(user_code_idx < (sizeof(user_code)-1))
+                {
+                    user_code[user_code_idx] = number + 0x30;
+                    lcd_gotoxy(user_code_idx + 8,1); 
+                    lcd_putchar(user_code[user_code_idx]);
+                    user_code_idx++;
+                }
+             } 
+       }
+  }
 }
 //**********************************Configurations*********************************
 void Configurations(void)
