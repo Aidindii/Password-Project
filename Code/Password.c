@@ -105,6 +105,58 @@ int ReadKeyPad(void)
             break;
         }
 }
+//*****************************Ask for Confirm***************************************
+int AskYesNo(char msg[20])
+{
+  int MenuItemCnt = 2, Pointer = 0,i = 0;
+  char *MenuItems[2] = {"1 Yes", "2 No"};
+  bool Refresh = true;
+  delay_ms(200); 
+  while(1)
+  {
+    if(Refresh == true)
+    { 
+       delay_ms(100);
+       Refresh = false;
+       lcd_clear();
+       lcd_puts(msg);
+       for(i = 0; i < MenuItemCnt; i++)
+       {
+          lcd_gotoxy(0,i+1);
+          lcd_puts(MenuItems[i]);
+       }
+       if(Pointer > 1)
+          Pointer = 1;
+       else if(Pointer < 0)
+          Pointer = 0;
+       lcd_gotoxy(1,Pointer + 1);
+       lcd_putchar('>');
+    }
+    if(KeyCode == Key_Down_Val)            //Down
+    {
+        KeyCode = -1;
+        Pointer++;
+        if(Pointer > 1)
+           Pointer = 1;
+        Refresh = true;
+    }
+    else if(KeyCode == Key_Up_Val)       //Up
+    {
+        KeyCode = -1;
+        Pointer--;
+        if(Pointer < 0)
+           Pointer = 0;
+        Refresh = true;
+    }
+    else if(KeyCode == Key_Enter_Val)  //Enter
+    {
+        KeyCode = -1;
+        lcd_clear();
+        return Pointer + 1;
+    }
+    delay_ms(10);
+  }
+}
 //**********************************Configurations*********************************
 void Configurations(void)
 {
