@@ -157,6 +157,19 @@ int AskYesNo(char msg[20])
     delay_ms(10);
   }
 }
+//***********************Print numeric on LCD*********************************************
+void printNumbers(unsigned char keycode)
+{
+    char lcd_buffer[1] = {0};   
+    lcd_gotoxy(2,2);
+    lcd_puts("Key   Pressred");
+    if(keycode >= 0 && keycode <= 9)
+       {
+            sprintf(lcd_buffer, "%d", keycode);
+            lcd_gotoxy(6,2);
+            lcd_puts(lcd_buffer); 
+       }
+}
 //**********************************Configurations*********************************
 void Configurations(void)
 {
