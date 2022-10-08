@@ -57,7 +57,7 @@ bool ChangePassword(void);
 interrupt [EXT_INT0] void ext_int0_isr(void)
 {
 // Place your code here
-
+KeyCode = ReadKeyPad(); 
 }
 
 void main(void)
