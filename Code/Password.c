@@ -27,6 +27,7 @@ Data Stack size         : 256
 #include <stdlib.h>
 #include <delay.h>
 #include <stdbool.h>
+#include <eeprom.h>
 // Alphanumeric LCD functions
 #include <alcd.h>
 
@@ -193,6 +194,17 @@ void WriteToMemory(int address, int data)
     delay_us(2);
     eeprom_write_byte(address + 1, data); 
     delay_us(2);
+}
+//********************************Read From EEPROM*************************************
+int ReadFromMemory(int address)
+{
+ int counter = 0, data = 0;
+ counter = eeprom_read_byte(address);  
+ delay_us(2);
+ data = eeprom_read_byte(address + 1);
+ delay_us(2);
+ data = data + (counter * 255); 
+ return data;
 }
 //**********************************Configurations*********************************
 void Configurations(void)
