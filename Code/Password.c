@@ -170,6 +170,13 @@ void printNumbers(unsigned char keycode)
             lcd_puts(lcd_buffer); 
        }
 }
+//****************************Char to Integer******************************************
+int convert_to_int(char data[5])
+{
+    int value = 0;
+    value = atoi(data);
+    return value;
+}
 //**********************************Configurations*********************************
 void Configurations(void)
 {
